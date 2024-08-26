@@ -21,9 +21,10 @@ ROOT_ID=$(aws organizations list-roots \
     --region "${AWS_REGION}" \
     --root-id "${ROOT_ID}"
 } || {
+  exitCode=$?
   # or other responses
   # shellcheck disable=SC2203
-  if [[ $(echo ?$) == 254 ]]
+  if [[ $exitCode -eq 254 ]]
   then
     # policy already exists
     echo "WARN: From AWS: The specified policy type is already enabled."
